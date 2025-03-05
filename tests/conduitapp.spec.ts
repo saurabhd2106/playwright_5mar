@@ -2,6 +2,16 @@ import {expect, test} from "@playwright/test"
 
 test.describe("Conduit App Test Cases", () => {
 
+    test.beforeAll("Pre Setup", ()=>{
+        console.log("This executes before all the test methods")
+    })
+
+    test.beforeEach("Setup", async ({page})=>{
+
+        await page.goto("http://localhost")
+
+    })
+
     test("Login to Application", async ({page})=>{
 
         // 1. Prepare the test data
@@ -14,7 +24,7 @@ test.describe("Conduit App Test Cases", () => {
 
         // 2. Take Action
 
-        await page.goto("http://localhost")
+       
 
         await page.getByRole("link", {name: "Sign in"}).click()
 
@@ -42,7 +52,6 @@ test.describe("Conduit App Test Cases", () => {
 
         // 2. Take Action
 
-        await page.goto("http://localhost")
 
         await page.getByRole("link", {name: "Sign in"}).click()
 
@@ -74,6 +83,14 @@ test.describe("Conduit App Test Cases", () => {
         await expect(page.getByRole('link', { name: 'Edit Article' }).first()).toBeVisible();
         await expect(page.locator('h1')).toHaveText(articleTitle);
 
+    })
+
+    test.afterEach("Clean Up", ()=>{
+        console.log("After each test Method")
+    })
+
+    test.afterAll("Post Clean Up", ()=>{
+        console.log("After all test methods..")
     })
 
 })
