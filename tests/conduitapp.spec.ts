@@ -58,6 +58,22 @@ test.describe("Conduit App Test Cases", () => {
 
         //Add the logic of add Article
 
+        const articleTitle = 'Article title';
+
+        await page.getByRole('link', { name: 'New Article' }).click();
+        await page.getByPlaceholder('Article Title').fill(articleTitle);
+        await page.getByPlaceholder(`What's this article about?`).fill('test article');
+        await page.getByPlaceholder(`Write your article (in markdown)`).fill('writing article');
+        // await page.getByPlaceholder(`Enter tags`).fill('testTag');
+        await page.getByText('Publish Article').click();
+        // await page.getByText('Publish Article').click();
+        
+
+        //3. Add assertions
+
+        await expect(page.getByRole('link', { name: 'Edit Article' }).first()).toBeVisible();
+        await expect(page.locator('h1')).toHaveText(articleTitle);
+
     })
 
 })
