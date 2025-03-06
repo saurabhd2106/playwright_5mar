@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, request, test } from "@playwright/test"
 
 test.describe("API Testing", () => {
 
@@ -52,6 +52,65 @@ test.describe("API Testing", () => {
         const token = responseData.user.token
 
         console.log(token)
+
+    })
+
+    test("Add Article", async ({request}) => {
+
+        const username = "test@test.com"
+        const password = "test"
+
+        const response = await request.post("/api/users/login", {
+            data:
+
+            {
+                "user": {
+                    "email": username,
+                    "password": password
+                }
+            }
+
+            ,
+
+            headers: {
+
+                "Content-Type": "application/json"
+
+            }
+        })
+
+        expect(response.ok()).toBeTruthy()
+
+        const responseData = await response.json();
+
+
+        const token = responseData.user.token
+
+       
+     const articleResponse =   await request.post("/api/articles", {
+            data:
+                {
+                    "article": {
+                        "title": "Test Articles",
+                        "description": "test ",
+                        "body": "test",
+                        "tagList": [
+                            "test"
+                        ]
+                    }
+                }
+
+            ,
+            headers: {
+
+                "Content-Type": "application/json",
+
+                "Authorization": "Token " + token
+
+            }
+        })
+
+        expect(articleResponse.ok()).toBeTruthy()
 
     })
 })
