@@ -1,4 +1,5 @@
 import {expect, test} from "@playwright/test"
+import { LoginPage } from "../pages/loginpage"
 
 test.describe("Conduit App Test Cases", () => {
 
@@ -6,13 +7,17 @@ test.describe("Conduit App Test Cases", () => {
         console.log("This executes before all the test methods")
     })
 
-    test.beforeEach("Setup", async ({page})=>{
+    test.beforeEach("Setup", async ({page}) => {
+
 
         await page.goto("http://localhost")
 
     })
 
+
     test("Login to Application", async ({page})=>{
+
+    
 
         // 1. Prepare the test data
 
@@ -24,19 +29,15 @@ test.describe("Conduit App Test Cases", () => {
 
         // 2. Take Action
 
-       
+        var loginpage = new LoginPage(page);
 
-        await page.getByRole("link", {name: "Sign in"}).click()
+        await loginpage.loginToApplication(useremail, password);
 
-        await page.getByPlaceholder("Email").fill(useremail)
+        // Add assertion
 
-        await page.getByPlaceholder("Password").fill(password)
+        await loginpage.verifyLoginSuccess(username);
 
-        await page.getByRole("button", {name: "Sign in"}).click()
-
-        // 3. Add Assertions
-
-        await expect(page.getByRole("link", {name: username})).toBeVisible()
+        
 
     })
 
@@ -50,20 +51,17 @@ test.describe("Conduit App Test Cases", () => {
 
         const password = "test"
 
-        // 2. Take Action
+        var loginpage = new LoginPage(page);
 
+       await  loginpage.loginToApplication(useremail, password);
 
-        await page.getByRole("link", {name: "Sign in"}).click()
+       await  loginpage.verifyLoginSuccess(username);
 
-        await page.getByPlaceholder("Email").fill(useremail)
-
-        await page.getByPlaceholder("Password").fill(password)
-
-        await page.getByRole("button", {name: "Sign in"}).click()
+     
 
         // 3. Add Assertions
 
-        await expect(page.getByRole("link", {name: username})).toBeVisible()
+       
 
         //Add the logic of add Article
 
