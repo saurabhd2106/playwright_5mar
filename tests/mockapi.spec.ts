@@ -23,4 +23,27 @@ test.describe("Conduit API testing", ()=>{
 
         
     })
+
+    test("Multi Tag Scenario", async ({page}) =>{
+
+        const testdata = {"tags":["selenium","test", "cypress", "playwright", "katalon studio"]}
+
+
+
+        await page.route("/api/tags", route => route.fulfill({
+
+            status: 200,
+            body: JSON.stringify(testdata)
+
+        }))
+
+        await page.goto("http://localhost")
+
+        const allTags = await page.locator(".tag-list > a").all()
+
+        expect(allTags.length).toBe(5)
+
+        
+
+    })
 })
