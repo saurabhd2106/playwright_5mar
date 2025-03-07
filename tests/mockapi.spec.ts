@@ -43,6 +43,12 @@ test.describe("Conduit API testing", ()=>{
 
         expect(allTags.length).toBe(5)
 
+        const tagTexts = await Promise.all(allTags.map(async tag => (await tag.textContent())?.trim()));
+        expect(tagTexts).toEqual(["selenium","test", "cypress", "playwright", "katalon studio"]);
+
+        expect(tagTexts).toContain("selenium")
+
+
         
 
     })
