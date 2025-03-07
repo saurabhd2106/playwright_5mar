@@ -1,5 +1,8 @@
 import { expect, request, test } from "@playwright/test"
 
+import users from "../test_data/users.json"
+import common_headers from "../test_data/common_header.json"
+
 test.describe("API Testing", () => {
 
 
@@ -25,22 +28,11 @@ test.describe("API Testing", () => {
         const password = "test"
 
         const response = await request.post("/api/users/login", {
-            data:
-
-            {
-                "user": {
-                    "email": username,
-                    "password": password
-                }
-            }
+            data: users
 
             ,
 
-            headers: {
-
-                "Content-Type": "application/json"
-
-            }
+            headers: common_headers
         })
 
         expect(response.ok()).toBeTruthy()
@@ -55,7 +47,7 @@ test.describe("API Testing", () => {
 
     })
 
-    test("Add Article", async ({request}) => {
+    test("Add Article", async ({ request }) => {
 
         const username = "test@test.com"
         const password = "test"
@@ -86,19 +78,19 @@ test.describe("API Testing", () => {
 
         const token = responseData.user.token
 
-       
-     const articleResponse =   await request.post("/api/articles", {
+
+        const articleResponse = await request.post("/api/articles", {
             data:
-                {
-                    "article": {
-                        "title": "Test Articles",
-                        "description": "test ",
-                        "body": "test",
-                        "tagList": [
-                            "test"
-                        ]
-                    }
+            {
+                "article": {
+                    "title": "Test Articles",
+                    "description": "test ",
+                    "body": "test",
+                    "tagList": [
+                        "test"
+                    ]
                 }
+            }
 
             ,
             headers: {
